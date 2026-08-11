@@ -1,262 +1,130 @@
-# 📱 FocusLingua | 英語學習 App 介面設計規格藍圖 (App Design Blueprint)
+# 📱 FocusLingua | 英語學習 App 介面設計規格藍圖 v2.1
+### (新增：受眾分流、句子輔助與特教教師後台模組)
 
-本規格藍圖針對 **FocusLingua**（注意力障礙與閱讀障礙友善英語學習 App）的六大核心畫面，分別定義其「需求規格」、「AI 生成 Prompt」、「ASCII 線框圖」以及「高保真 UI 說明」，以利進行下一階段的程式碼實作。
+本版規格書新增三項核心變革：**首頁受眾雙分流（閱讀障礙/ADHD）**、**單字卡輔助句子折疊器**、**設定頁特教教師端（學生進度追蹤與教材上傳機制）**。
 
 ---
 
-## 1. 首頁 (Home Screen)
+## 🔑 v2.1 新增功能架構與效果分析
+
+### 1. 受眾分流與句子折疊（對學習障礙學生的效果評估）
+* **首頁選擇「閱讀障礙」與「ADHD」雙分流**：
+  * **效果**：**極佳。** 這兩種障礙的認知瓶頸不同：ADHD 需要**防止注意力漂移與任務啟動障礙**（以計時器與隨機獎勵為主）；而閱讀障礙需要**防止字元識別疲勞與跳行**（以 OpenDyslexic、高對比、TTS 發音為主）。分流能防止對 ADHD 而言多餘的視覺輔助反而成為分心源，也防止閱讀障礙者被過度晃動的動態干擾。
+* **單字卡「輔助句子折疊按鈕」**：
+  * **效果**：**極佳。** ADHD 大腦在看到密密麻麻的一長串段落時會直接觸發**「任務癱瘓 (Task Paralysis)」**而放棄。採用折疊機制，預設「僅展示單字」，使用者可以自己決定是否展開例句，這將資訊負載主導權還給學生，能顯著降低焦慮。
+
+### 2. 設定頁「教師/學生切換與教材管理」
+* **學生端**：維持專注學習功能。
+* **教師端**：
+  * **學生學習成果看板**：檢視所有綁定學生的完成率、平均反應時間（Latency）、連續專注天數與錯題簿。
+  * **自訂教材上傳**：支援上傳 CSV 或輸入單字與例句，並設定為 `公開 (Public)`（開放給全社群）或 `私人 (Private)`（僅自己班級學生可見）。
+
+---
+
+## 1. 首頁 (Home Screen) — v2.1 分流改版
 
 ### ① 需求 (Requirements)
-* **目的**：讓注意力不易集中的使用者在開啟 App 時能一眼看清當前狀態，並提供低阻力的學習入口，降低啟動成本。
+* **目的**：第一次開啟 App 時，引導使用者進行分流選擇，並將選擇記錄於 User Profile。
 * **畫面元素**：
-  * **今日進度看板**：顯示今日已學單字數與目標進度條（例：今日已學 3/5 個單字）。
-  * **主動按鈕（開始今天的單字）**：大面積、高對比的視覺按鈕。
-  * **次要按鈕（繼續上次）**：供中斷後快速重回上次進度。
-  * **每日一句減壓卡片**：一句溫慢的英語激勵短句。
+  * **分流引導卡片**：
+    * **左按鈕 (ADHD/專注挑戰模式)**：強調 90s 沙漏、白噪音、遊戲化多巴胺回饋。
+    * **右按鈕 (閱讀障礙/視覺優化模式)**：預設啟用 OpenDyslexic 字型、寬行高、無突兀動態。
+  * **今日進度、微入口與連續天數**：根據所選模式微調 UI 複雜度。
 
-### ② PROMPT (for Stitch / UI Generator)
-> A high-fidelity mobile app home screen UI for FocusLingua, an ADHD-friendly English learning app. Calming teal and white palette. Features a clean card at the top showing "Today's Progress: 3/5 words" with a soft blue progress bar. In the center, a prominent rounded button says "Start Today's Words" in vibrant teal gradient. Below it, a smaller ghost button says "Continue Last Session". At the bottom, a minimalist text card says "Take it one word at a time". Distraction-free, modern, premium UI.
-
-### ③ 線稿 WIREFRAME (ASCII Layout)
+### ② 線稿 WIREFRAME
 ```text
 +---------------------------------------+
 |  [Logo] FocusLingua           (User)  |
 +---------------------------------------+
 |                                       |
-|  +---------------------------------+  |
-|  |  🌟 今日進度 (Today's Progress)  |  |
-|  |  [====== 60% Progress Bar =====] |  |
-|  |  今日已學: 3 / 5 個單字          |  |
-|  +---------------------------------+  |
+|  🌟 請選擇最適合您的學習模式：         |
 |                                       |
 |  +---------------------------------+  |
-|  |       [ 開始今天的單字 (P0) ]      |  |
-|  |        (大面積主導按鈕，漸層色)     |  |
+|  |  🔘 ADHD 專注挑戰模式           |  |
+|  |  (90s 計時器、背景白噪音、驚喜獎勵) |  |
+|  +---------------------------------+  |
+|  |  🔘 閱讀障礙視覺模式            |  |
+|  |  (OpenDyslexic 字型、高對比字距) |  |
 |  +---------------------------------+  |
 |                                       |
-|  +---------------------------------+  |
-|  |           [ 繼續上次 ]          |  |
-|  +---------------------------------+  |
+|  [ 確定進入學習 ]                     |
 |                                       |
-|  "Take it one word at a time."        |
-|                                       |
-+---------------------------------------+
-|  [首頁]  [字卡]  [測驗]  [複習]  [設定]  |
 +---------------------------------------+
 ```
 
-### ④ STITCH MOCK UP
-* **視覺特徵**：背景採用清爽的 `#f8fafc` 減壓灰底，字體採用加粗的黑體，提高視覺抓取度。進度條有發光呼吸燈特效，點擊「開始」時按鈕會有縮放彈彈回饋。
+### ③ PROMPT
+> A mobile app onboarding screen UI for FocusLingua. Features a clean, soothing background. In the center, two large, friendly card-style selectors are presented side-by-side or stacked: "ADHD Focus Mode" (with an hourglass and music icon) and "Dyslexia Visual Mode" (with a large font letter A and reading ruler icon). Below them is a large primary button "Enter Learning Cabin". Distraction-free, friendly and welcoming illustration.
 
 ---
 
-## 2. 單字卡頁 (Flashcard Screen)
+## 2. 單字卡頁 (Flashcard Screen) — v2.1 輔助句子折疊
 
 ### ① 需求 (Requirements)
-* **目的**：提供無干擾的單字記憶卡，透過「翻卡」與「標記熟悉」協助閱讀障礙者高效吸收。
+* **目的**：提供單字卡片，並將句子作為「輔助工具」做成可折疊開關。
 * **畫面元素**：
-  * **大字體單字卡**：中央展示大單字，可點擊朗讀。
-  * **正面/反面翻頁機制**：點擊卡片觸發旋轉翻卡（正面：英文單字與音標；反面：中文解釋與英文例句）。
-  * **底欄按鈕**：
-    * 左下按鈕：`標記熟悉`（標記後移出今日新單字庫）。
-    * 右下按鈕：`不熟悉/下一個`。
+  * **單字正面卡**：單字 + 音標。
+  * **展開句子開關 (Toggle Sentence)**：一個小眼睛或展開圖示。點擊後才由下方滑出英文例句，例句中的單字會自動高亮。
 
-### ② PROMPT (for Stitch / UI Generator)
-> A minimalist mobile app flashcard screen UI for FocusLingua. The font is styled like OpenDyslexic (heavy bottom, wide letter spacing). The card is clean white with rounded corners on a soft mint green background. On the card, the word "CALM /kɑːm/" is displayed in dark teal. Below are two intuitive control buttons: "Mastered" in soft green with a check icon, and "Still Learning" in outline style. Distraction-free, focusing on one single word.
-
-### ③ 線稿 WIREFRAME (ASCII Layout)
+### ② 線稿 WIREFRAME
 ```text
 +---------------------------------------+
 |  < 返回                               |
 +---------------------------------------+
 |                                       |
 |       +-----------------------+       |
-|       |                       |       |
-|       |         CALM          |       |
-|       |        /kɑːm/         |       |
-|       |                       |       |
-|       |       ( 點選翻卡 )     |       |
-|       +-----------------------+       |
-|                                       |
-|       [🔊 朗讀發音] [🎧 專注噪音]       |
-|                                       |
-|  +---------------------------------+  |
-|  |  [ 標記熟悉 ✔️ ]   [ 繼續學習 ❌ ]  |
-|  +---------------------------------+  |
-|                                       |
-+---------------------------------------+
-```
-
-### ④ STITCH MOCK UP
-* **視覺特徵**：點選卡片時會有 3D 翻轉動畫（卡片背面倒角加重，排版清晰）。字體可由使用者隨時在設定中一鍵轉為閱讀障礙字型，提升字母區辨度。
-
----
-
-## 3. 測驗頁 (Quiz Screen)
-
-### ① 需求 (Requirements)
-* **目的**：即時驗證學習成果，強調無延遲的視覺觸覺多巴胺反饋。
-* **畫面元素**：
-  * **題目卡**：展示待測試的英文單字。
-  * **四選一選項區**：提供四個釋義選項。
-  * **回饋動態**：答對時噴發大量彩帶粒子並發出啵啵聲；答錯時卡片震動並維持紅色提示。
-
-### ② PROMPT (for Stitch / UI Generator)
-> A high-fidelity mobile app quiz screen UI for FocusLingua. At the top, a stylized teal hourglass timer shows "5:42". In the center, a large white card displays the word "FOCUS" in a bold, bottom-heavy, dyslexia-friendly font. Below the card are three minimalist multiple choice buttons. The design is modern, premium, and distraction-free.
-
-### ③ 線稿 WIREFRAME (ASCII Layout)
-```text
-+---------------------------------------+
-|  [X] 結束專注                  [⏳ 56s] |
-+---------------------------------------+
-|                                       |
-|       +-----------------------+       |
-|       |                       |       |
 |       |         FOCUS         |       |
-|       |                       |       |
+|       |        /ˈfoʊ.kəs/       |       |
 |       +-----------------------+       |
 |                                       |
+|  [👁️ 顯示輔助例句 (Show Sentence) ]  |
+|                                       |
 |  +---------------------------------+  |
-|  |  A. 模糊或不清晰                |  |
-|  +---------------------------------+  |
-|  |  B. 專注、集中注意力 (Correct)  |  |
-|  +---------------------------------+  |
-|  |  C. 忽視與遺忘                  |  |
+|  | 例句：You need to FOCUS on your   |  |
+|  | study. (點擊發音)               |  |
 |  +---------------------------------+  |
 |                                       |
+|  [ 標記熟悉 ✔️ ]   [ 繼續學習 ❌ ]  |
 +---------------------------------------+
 ```
 
-### ④ STITCH MOCK UP
-* **實體畫面輔助**：
-  * [關卡測驗畫面](../assets/focuslingua_learning_ui.jpg)
-  * [答對慶賀畫面](../assets/focuslingua_victory_ui.jpg)
+### ③ PROMPT
+> A mobile flashcard UI with an expandable text block. The main card shows "FOCUS" in big bold font. Below the card is an elegant outline button with an eye-icon labeled "Show Example Sentence". When clicked, a secondary soft tinted card slides out below containing: "Example: You need to FOCUS on your study." with a small audio icon next to it. Low-clutter, clean Morandi green accents.
 
 ---
 
-## 4. 複習頁 (Review Screen)
+## 3. 設定頁 (Settings Screen) — v2.1 教師/學生切換與教材上傳
 
 ### ① 需求 (Requirements)
-* **目的**：彙整使用者在測驗中答錯的字，給予集中二次曝光機會，加深記憶。
+* **目的**：允許特教老師切換為「教師模式」，進行班級進度追蹤與教材發佈管理。
 * **畫面元素**：
-  * **錯題單字卡清單**：列出所有錯誤單字與答錯次數（例：`FOCUS - 錯題 2 次`）。
-  * **重新測驗按鈕**：一鍵開啟「錯題加強包」進行微型測驗。
-  * **標記已熟悉**：在此手動將錯題從複習清單中移除。
+  * **模式切換開關**：學生 (Student) / 教師 (Teacher) 切換 Slider。
+  * **教師專屬管理面板 (切換為教師後顯示)**：
+    * **學生學情追蹤 (Student Roster)**：點擊展開各學生名單，顯示完成率、平均反應時間及連續專注天數。
+    * **自訂教材上傳區 (Lesson Uploader)**：
+      * 文字輸入欄（單字與輔助句子）。
+      * 權限單選鈕：`● 公開使用 (Public)`（所有使用者皆可下載）、`○ 私人使用 (Private)`（僅綁定該教師的學號可看）。
 
-### ② PROMPT (for Stitch / UI Generator)
-> A mobile app review and correction book UI for FocusLingua. Uses a gentle slate and light blue theme. A list displays incorrect words, such as "FOCUS" with a tiny red indicator showing "Failed 2x". Next to each word is a small checkmark button to "Mark as Mastered". At the bottom, a prominent blue button says "Re-Test Errors". Modern, highly organized interface.
-
-### ③ 線稿 WIREFRAME (ASCII Layout)
+### ② 線稿 WIREFRAME
 ```text
 +---------------------------------------+
-|  錯題複習簿 (Review Book)               |
+|  設定與管理 (Settings & Dashboard)     |
 +---------------------------------------+
 |                                       |
-|  +---------------------------------+  |
-|  | ❌ FOCUS          (答錯 2 次) [✔️] |
-|  +---------------------------------+  |
-|  | ❌ CALM           (答錯 1 次) [✔️] |
-|  +---------------------------------+  |
+|  身份角色設定                          |
+|  模式切換： [ 學生 (Student) | 教師 (Teacher) ]|
 |                                       |
-|  +---------------------------------+  |
-|  |       [ 重新測驗錯題 (P0) ]        |  |
-|  +---------------------------------+  |
+|  [ 以下為教師專屬管理區 ]               |
+|  👥 學生學習追蹤 (Student Dashboard)    |
+|  - 王小明：進度 85% | 平均延遲 240ms   |
+|  - 李小華：進度 40% | 平均延遲 410ms   |
 |                                       |
-+---------------------------------------+
-|  [首頁]  [字卡]  [測驗]  [複習]  [設定]  |
+|  📤 自訂教材上傳 (Upload Materials)    |
+|  課程名稱: [ 基礎感官單字組-A        ] |
+|  上傳 CSV: [ 選擇檔案...             ] |
+|  權限設定: (● 公開共享  ○ 私人專屬)     |
+|  [ 確定發布教材 ]                     |
 +---------------------------------------+
 ```
 
-### ④ STITCH MOCK UP
-* **視覺特徵**：採用溫和的卡片式條列排版，將錯題按時間序或錯誤頻率高低排列。點選「標記已熟悉」時，卡片會以向右滑出的特效消失。
-
----
-
-## 5. 進度頁 (Progress Screen)
-
-### ① 需求 (Requirements)
-* **目的**：以圖像化數據（非密集數字）展示學習成果，給予過動症學習者視覺化的成就激勵。
-* **畫面元素**：
-  * **圓環進度圖**：顯示當前學習總進度（如 75% 已完成）。
-  * **量化指標三色區**：
-    * **已學 (Learned)**：累計學習的單字總量（搭配藍色進度條）。
-    * **待複習 (To Review)**：錯題與待加強單字數（搭配黃色進度條）。
-    * **已熟悉 (Mastered)**：已內化熟記的單字數（搭配綠色進度條）。
-
-### ② PROMPT (for Stitch / UI Generator)
-> A high-fidelity mobile app progress dashboard UI for FocusLingua. Features a clean circle chart showing "75% Complete". Below it, three cards show progress metrics: "Learned: 120 words" with a blue progress bar, "To Review: 15 words" with a yellow bar, and "Mastered: 90 words" with a green bar. Modern, friendly, encouraging UI.
-
-### ③ 線稿 WIREFRAME (ASCII Layout)
-```text
-+---------------------------------------+
-|  我的學習進度 (My Progress)             |
-+---------------------------------------+
-|                                       |
-|                /=====\                |
-|               /   75% \               |
-|               |  已完成|               |
-|               \       /               |
-|                \=====/                |
-|                                       |
-|  +---------------------------------+  |
-|  | ⭐ 已學 (Learned)         120 字  |
-|  | [===========藍色進度條==========] |
-|  +---------------------------------+  |
-|  | 🔄 待複習 (To Review)     15 字   |
-|  | [==黃色進度條==]                  |
-|  +---------------------------------+  |
-|  | 檢 已熟悉 (Mastered)      90 字   |
-|  | [=========綠色進度條========]     |
-|  +---------------------------------+  |
-|                                       |
-+---------------------------------------+
-|  [首頁]  [字卡]  [測驗]  [複習]  [設定]  |
-+---------------------------------------+
-```
-
-### ④ STITCH MOCK UP
-* **實體畫面輔助**：
-  * [學習進度統計畫面](../assets/focuslingua_progress_ui.jpg)
-
----
-
-## 6. 設定頁 (Settings Screen)
-
-### ① 需求 (Requirements)
-* **目的**：提供學習節奏與介面偏好的深度自訂，滿足學習障礙者多元的感官補償偏好。
-* **畫面元素**：
-  * **每日學習目標**：自訂每日學習單字量（如 5 字 / 10 字 / 20 字）。
-  * **提醒時間 (Push Notification)**：設定每日專注提醒鬧鐘。
-  * **中英解釋切換模式**：可開關「全英文釋義」或「中英雙語釋義」，以降低視覺繁雜度。
-  * **感官功能開關**：震動強度開關、專注背景音樂主題選擇（雙耳節拍/粉紅噪音/靜音）。
-
-### ② PROMPT (for Stitch / UI Generator)
-> A clean mobile settings screen UI for FocusLingua app. Contains option lists with toggle switches: "Daily Word Count" (shows input selector), "Daily Reminder Time", and a segment selector for "Explanations" (English-Chinese / English Only). Below are sensory toggles: "Haptic Vibration Strength" and "Focus Background Noise". Standard slate and white premium clean theme.
-
-### ③ 線稿 WIREFRAME (ASCII Layout)
-```text
-+---------------------------------------+
-|  設定與偏好 (Settings)                 |
-+---------------------------------------+
-|                                       |
-|  📊 學習目標                           |
-|  每日單字量      [ 5 字 | 10 字 | 20 字] |
-|                                       |
-|  ⏰ 通知設定                           |
-|  每日提醒時間            [ 下午 20:00 > ] |
-|                                       |
-|  🌐 顯示偏好                           |
-|  翻譯解釋      (● 中英對照  ○ 僅英文)    |
-|                                       |
-|  🎧 感官整合                           |
-|  閱讀障礙字型            [ 開啟  (🔘) ] |
-|  答對震動反饋            [ 輕微  (🔘) ] |
-|  專注背景噪音            [ 40Hz雙耳節拍 ]|
-|                                       |
-+---------------------------------------+
-|  [首頁]  [字卡]  [測驗]  [複習]  [設定]  |
-+---------------------------------------+
-```
-
-### ④ STITCH MOCK UP
-* **視覺特徵**：開關鈕（Toggle）與分段選擇器（Segmented Control）設計圓潤好按，符合特教介面防誤觸規格。所有文字字距、行高皆預設放大 1.25x 以優化視覺追蹤。
+### ③ PROMPT
+> A premium mobile app settings screen for teachers in FocusLingua app. In the upper part, a segmented switch allows toggling between "Student" and "Teacher" mode. The Teacher section expands below, featuring: 1. A clean student monitoring list showing completion percentages and click latency metrics. 2. A drag-and-drop file upload section for CSV lesson plans with a permission toggle: "Public (Share with community)" / "Private (Classroom only)". Calm slate, teal, and white theme.
