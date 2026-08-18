@@ -25,8 +25,6 @@ FocusLingua 專門為非標準腦（Neurodivergent，如 ADHD / ADD / 閱讀障�
 
 ```text
 FocusLingua_PRD_0811/
-├── 0818/                                    # 📂 0818 新增規格與組件
-│   └── focuslingua_ella_home_v1.md          # 🤖 Ella 對話式首頁架構 v1.0 (獨立新增規格)
 ├── app_model/                               # 📱 App 介面與模型設計規格
 │   ├── app_design_blueprint_v3.md           # App 介面設計規格藍圖 v3 (包含教師端與分流)
 │   ├── focuslingua_ella_home_v1.md          # Ella 對話式首頁架構 v1.0 規格
